@@ -19,8 +19,6 @@ npm install
 npm start
 ```
 
-````
-
 The server will run on http://localhost:3001
 
 ### Starting the Frontend
@@ -53,4 +51,3 @@ The application will open at http://localhost:5173
 
 - If you see connection errors, ensure both frontend and backend servers are running
 - Check `server/data/blocks.json` exists and is writable
-````
