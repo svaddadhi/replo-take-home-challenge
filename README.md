@@ -1,50 +1,56 @@
-# React + TypeScript + Vite
+# Notion-like Block Editor
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple block editor that supports text and image blocks with backend persistence.
 
-Currently, two official plugins are available:
+## Quick Start
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This application consists of two parts: a React frontend and an Express backend. You'll need to start both to use the application.
 
-## Expanding the ESLint configuration
+### Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- Node.js (v16 or higher)
+- npm
 
-- Configure the top-level `parserOptions` property like this:
+### Starting the Backend
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+cd server
+npm install
+npm start
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+````
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+The server will run on http://localhost:3001
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+### Starting the Frontend
+
+In a new terminal:
+
+```bash
+# From the project root
+npm install
+npm run dev
 ```
+
+The application will open at http://localhost:5173
+
+## Features
+
+- Create and edit text blocks (H1, H2, H3, paragraph)
+- Create and edit image blocks with customizable dimensions
+- Persistent storage using JSON file
+- Real-time feedback with notifications
+
+## Project Structure
+
+- `/server` - Express backend with JSON file storage
+- `/src/components` - React components
+- `/src/store` - Data management
+- `/src/types` - TypeScript type definitions
+
+## Troubleshooting
+
+- If you see connection errors, ensure both frontend and backend servers are running
+- Check `server/data/blocks.json` exists and is writable
+````
