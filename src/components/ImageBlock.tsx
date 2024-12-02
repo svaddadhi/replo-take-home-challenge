@@ -15,7 +15,12 @@ export const ImageBlock = ({ block, onUpdate }: ImageBlockProps) => {
   const [src, setSrc] = useState(block.src);
 
   const handleSave = () => {
-    onUpdate({ ...block, ...dimensions, src });
+    onUpdate({
+      ...block,
+      width: Number(dimensions.width),
+      height: Number(dimensions.height),
+      src,
+    });
     setIsEditing(false);
   };
 
@@ -46,12 +51,20 @@ export const ImageBlock = ({ block, onUpdate }: ImageBlockProps) => {
       <button onClick={handleSave}>Save</button>
     </div>
   ) : (
-    <img
-      src={block.src}
-      width={block.width}
-      height={block.height}
-      alt={block.alt || ""}
-      onClick={() => setIsEditing(true)}
-    />
+    <div className="image-block">
+      <img
+        src={
+          block.src ||
+          `https://via.placeholder.com/${block.width}x${block.height}`
+        }
+        style={{
+          width: `${block.width}px`,
+          height: `${block.height}px`,
+          objectFit: "cover",
+        }}
+        alt={block.alt || ""}
+        onClick={() => setIsEditing(true)}
+      />
+    </div>
   );
 };

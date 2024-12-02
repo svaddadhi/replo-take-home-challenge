@@ -1,5 +1,5 @@
-// src/App.tsx
 import { Editor } from "./components/Editor";
+import "./styles/editor.css";
 
 function App() {
   return (
