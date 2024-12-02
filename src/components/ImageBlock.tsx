@@ -9,16 +9,16 @@ interface ImageBlockProps {
 export const ImageBlock = ({ block, onUpdate }: ImageBlockProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [dimensions, setDimensions] = useState({
-    width: block.width,
-    height: block.height,
+    width: block.width.toString(),
+    height: block.height.toString(),
   });
   const [src, setSrc] = useState(block.src);
 
   const handleSave = () => {
     onUpdate({
       ...block,
-      width: Number(dimensions.width),
-      height: Number(dimensions.height),
+      width: dimensions.width ? Number(dimensions.width) : 0,
+      height: dimensions.height ? Number(dimensions.height) : 0,
       src,
     });
     setIsEditing(false);
@@ -36,7 +36,7 @@ export const ImageBlock = ({ block, onUpdate }: ImageBlockProps) => {
         type="number"
         value={dimensions.width}
         onChange={(e) =>
-          setDimensions((prev) => ({ ...prev, width: Number(e.target.value) }))
+          setDimensions((prev) => ({ ...prev, width: e.target.value }))
         }
         placeholder="Width"
       />
@@ -44,27 +44,42 @@ export const ImageBlock = ({ block, onUpdate }: ImageBlockProps) => {
         type="number"
         value={dimensions.height}
         onChange={(e) =>
-          setDimensions((prev) => ({ ...prev, height: Number(e.target.value) }))
+          setDimensions((prev) => ({ ...prev, height: e.target.value }))
         }
         placeholder="Height"
       />
       <button onClick={handleSave}>Save</button>
     </div>
   ) : (
-    <div className="image-block">
-      <img
-        src={
-          block.src ||
-          `https://via.placeholder.com/${block.width}x${block.height}`
-        }
-        style={{
-          width: `${block.width}px`,
-          height: `${block.height}px`,
-          objectFit: "cover",
-        }}
-        alt={block.alt || ""}
-        onClick={() => setIsEditing(true)}
-      />
+    <div className="image-block" onClick={() => setIsEditing(true)}>
+      {block.src ? (
+        <img
+          src={block.src}
+          style={{
+            width: `${block.width}px`,
+            height: `${block.height}px`,
+            objectFit: "cover",
+          }}
+          alt={block.alt || ""}
+        />
+      ) : (
+        <div
+          style={{
+            width: `${block.width}px`,
+            height: `${block.height}px`,
+            border: "2px dashed #e5e7eb",
+            borderRadius: "4px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "#6b7280",
+            fontSize: "14px",
+            cursor: "pointer",
+          }}
+        >
+          Click to add an image
+        </div>
+      )}
     </div>
   );
 };
