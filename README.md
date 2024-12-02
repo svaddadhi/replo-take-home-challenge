@@ -36,6 +36,7 @@ The application will open at http://localhost:5173
 ## Features
 
 - Create and edit text blocks (H1, H2, H3, paragraph)
+- Clicking on the created text or image blocks will allow for editing
 - Create and edit image blocks with customizable dimensions
 - Persistent storage using JSON file
 - Real-time feedback with notifications
