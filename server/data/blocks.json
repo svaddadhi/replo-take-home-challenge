@@ -9,16 +9,16 @@
     {
       "type": "image",
       "src": "",
-      "width": 600,
-      "height": 200,
-      "id": "1733178568253"
-    },
-    {
-      "type": "image",
-      "src": "",
       "width": 700,
       "height": 300,
       "id": "1733179084014"
+    },
+    {
+      "type": "image",
+      "src": "https://cdn.britannica.com/10/250610-050-BC5CCDAF/Zebra-finch-Taeniopygia-guttata-bird.jpg",
+      "width": 600,
+      "height": 500,
+      "id": "1733178568253"
     },
     {
       "type": "text",
@@ -57,6 +57,25 @@
       "content": "New text block",
       "headingType": "paragraph",
       "id": "1733182223713"
+    },
+    {
+      "type": "text",
+      "content": "New text block",
+      "headingType": "paragraph",
+      "id": "1733184400179"
+    },
+    {
+      "type": "image",
+      "src": "https://cdn.britannica.com/10/250610-050-BC5CCDAF/Zebra-finch-Taeniopygia-guttata-bird.jpg",
+      "width": 500,
+      "height": 700,
+      "id": "1733184404790"
+    },
+    {
+      "type": "text",
+      "content": "New text block",
+      "headingType": "paragraph",
+      "id": "1733276795863"
     }
   ]
 }

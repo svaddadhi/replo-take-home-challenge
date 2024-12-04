@@ -4,9 +4,18 @@ import { TextBlock as TextBlockType, HeadingType } from "../types/blocks";
 interface TextBlockProps {
   block: TextBlockType;
   onUpdate: (block: TextBlockType) => void;
+  onDragStart: () => void;
+  onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
+  onDrop: () => void;
 }
 
-export const TextBlock = ({ block, onUpdate }: TextBlockProps) => {
+export const TextBlock = ({
+  block,
+  onUpdate,
+  onDragStart,
+  onDragOver,
+  onDrop,
+}: TextBlockProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [content, setContent] = useState(block.content);
   const [headingType, setHeadingType] = useState<HeadingType>(
@@ -19,17 +28,52 @@ export const TextBlock = ({ block, onUpdate }: TextBlockProps) => {
   };
 
   const renderElement = () => {
+    const dragProps = {
+      draggable: true,
+      onDragStart,
+      onDragOver,
+      onDrop,
+      style: { cursor: "move" },
+    };
     switch (headingType) {
       case "h1":
-        return <h1 onClick={() => setIsEditing(true)}>{content}</h1>;
+        return (
+          <h1 {...dragProps} onClick={() => setIsEditing(true)}>
+            {content}
+          </h1>
+        );
       case "h2":
-        return <h2 onClick={() => setIsEditing(true)}>{content}</h2>;
+        return (
+          <h2 {...dragProps} onClick={() => setIsEditing(true)}>
+            {content}
+          </h2>
+        );
       case "h3":
-        return <h3 onClick={() => setIsEditing(true)}>{content}</h3>;
+        return (
+          <h3 {...dragProps} onClick={() => setIsEditing(true)}>
+            {content}
+          </h3>
+        );
       case "paragraph":
       default:
-        return <p onClick={() => setIsEditing(true)}>{content}</p>;
+        return (
+          <p {...dragProps} onClick={() => setIsEditing(true)}>
+            {content}
+          </p>
+        );
     }
+  };
+
+  const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    e.dataTransfer.setData("text", e.currentTarget.id);
+  };
+
+  const enableDropping = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    const id = e.dataTransfer.getData("text");
   };
 
   return isEditing ? (

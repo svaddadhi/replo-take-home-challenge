@@ -27,6 +27,45 @@ export const Editor = () => {
     type: "success" | "error";
   } | null>(null);
 
+  const [draggedItem, setDraggedItem] = useState<string | null>(null);
+
+  const handleDragStart = (blockId: string) => {
+    setDraggedItem(blockId);
+  };
+
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (targetBlockId: string) => {
+    if (!draggedItem || draggedItem === targetBlockId) return;
+    const draggedIndex = blocks.findIndex((index) => {
+      return index.id === draggedItem;
+    });
+    const targetBlockIdIndex = blocks.findIndex((index) => {
+      return index.id === targetBlockId;
+    });
+
+    const newBlocks = [...blocks];
+    const [draggedBlock] = newBlocks.splice(draggedIndex, 1);
+    newBlocks.splice(targetBlockIdIndex, 0, draggedBlock);
+
+    setBlocks(newBlocks);
+
+    saveBlockOrder(newBlocks);
+  };
+
+  const saveBlockOrder = async (blocks: Block[]) => {
+    try {
+      await BlockStore.updateBlockOrder(blocks);
+      showNotification("Block order updated successfully!", "success");
+    } catch (error) {
+      if (error instanceof Error) {
+        showNotification(getErrorMessage(error), "error");
+      }
+    }
+  };
+
   const showNotification = (message: string, type: "success" | "error") => {
     setNotification({ message, type });
     // Auto-dismiss after 3 seconds
@@ -117,19 +156,25 @@ export const Editor = () => {
         <button onClick={() => addNewBlock("text")}>Add Text</button>
         <button onClick={() => addNewBlock("image")}>Add Image</button>
       </div>
-      <div className="blocks">
+      <div id="editorblocks" draggable="true" className="blocks">
         {blocks.map((block) =>
           block.type === "text" ? (
             <TextBlock
               key={block.id}
               block={block as TextBlockType}
               onUpdate={updateBlock}
+              onDragStart={() => handleDragStart(block.id)}
+              onDragOver={handleDragOver}
+              onDrop={() => handleDrop(block.id)}
             />
           ) : (
             <ImageBlock
               key={block.id}
               block={block as ImageBlockType}
               onUpdate={updateBlock}
+              onDragStart={() => handleDragStart(block.id)}
+              onDragOver={handleDragOver}
+              onDrop={() => handleDrop(block.id)}
             />
           )
         )}

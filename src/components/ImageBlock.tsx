@@ -4,9 +4,18 @@ import { ImageBlock as ImageBlockType } from "../types/blocks";
 interface ImageBlockProps {
   block: ImageBlockType;
   onUpdate: (block: ImageBlockType) => void;
+  onDragStart: () => void;
+  onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
+  onDrop: () => void;
 }
 
-export const ImageBlock = ({ block, onUpdate }: ImageBlockProps) => {
+export const ImageBlock = ({
+  block,
+  onUpdate,
+  onDragOver,
+  onDragStart,
+  onDrop,
+}: ImageBlockProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [dimensions, setDimensions] = useState({
     width: block.width.toString(),
@@ -51,7 +60,15 @@ export const ImageBlock = ({ block, onUpdate }: ImageBlockProps) => {
       <button onClick={handleSave}>Save</button>
     </div>
   ) : (
-    <div className="image-block" onClick={() => setIsEditing(true)}>
+    <div
+      className="image-block"
+      draggable={true}
+      onDragStart={onDragStart}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      onClick={() => setIsEditing(true)}
+      style={{ cursor: "move" }}
+    >
       {block.src ? (
         <img
           src={block.src}

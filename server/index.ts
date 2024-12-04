@@ -59,6 +59,18 @@ app.post("/api/blocks", async (req, res) => {
   }
 });
 
+app.put("/api/blocks/reorder", async (req, res) => {
+  try {
+    console.log("request body: ", req.body);
+    const { blocks } = req.body;
+    await writeBlocks(blocks);
+    res.status(200).json({ success: true });
+  } catch (error) {
+    console.error("failing to persist:", error);
+    res.status(500).json({ error: "Failed to rearrange blocks" });
+  }
+});
+
 app.put("/api/blocks/:id", async (req, res) => {
   try {
     const blocks = await readBlocks();

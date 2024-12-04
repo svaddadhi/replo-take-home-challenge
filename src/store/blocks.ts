@@ -53,4 +53,24 @@ export const BlockStore = {
       throw error;
     }
   },
+
+  updateBlockOrder: async (blocks: Block[]): Promise<void> => {
+    try {
+      console.log(JSON.stringify({ blocks }));
+      const response = await fetch(`${API_URL}/blocks/reorder`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ blocks }),
+      });
+      console.log("response", response);
+      if (!response.ok) {
+        throw new Error("Failed to update block order");
+      }
+    } catch (error) {
+      console.error("Error rearranging blocks:", error);
+      throw error;
+    }
+  },
 };
